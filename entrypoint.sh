@@ -38,6 +38,7 @@ then
         echo "## [TESTING] Keyword was found but no release was created."
     else
         echo "HERE4"
+        echo $DATA
         echo $DATA | http POST $URL | jq .
     fi
 # otherwise
