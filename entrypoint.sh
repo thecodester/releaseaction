@@ -20,6 +20,7 @@ jq . < $EVENT_PATH
 if jq '.commits[].message, .head_commit.message' < $EVENT_PATH | grep -i -q "$*";
 then
     # do something
+    echo "HERE1"
     VERSION=$(date +%F.%s)
 
     DATA="$(printf '{"tag_name":"v%s",' $VERSION)"
@@ -27,13 +28,16 @@ then
     DATA="${DATA} $(printf '"name":"v%s",' $VERSION)"
     DATA="${DATA} $(printf '"body":"Automated release based on keyword: %s",' "$*")"
     DATA="${DATA} $(printf '"draft":false, "prerelease":false}')"
+    echo "HERE2"
 
     URL="https://api.github.com/repos/${GITHUB_REPOSITORY}/releases?access_token=${GITHUB_TOKEN}"
+    echo "HERE3"
 
     if [[ "${LOCAL_TEST}" == *"true"* ]];
     then
         echo "## [TESTING] Keyword was found but no release was created."
     else
+        echo "HERE4"
         echo $DATA | http POST $URL | jq .
     fi
 # otherwise
