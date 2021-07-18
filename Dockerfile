@@ -2,7 +2,8 @@ FROM alpine
 
 RUN apk add --no-cache \
         bash           \
-        httpie=2.0.0         \
+        httpie         \
+        setuptools     \
         jq &&          \
         which bash &&  \
         which http &&  \
